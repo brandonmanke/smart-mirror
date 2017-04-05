@@ -28,6 +28,7 @@ app.get('/weather', function(req, res) {
     const lat = '41.8781';
     const long = '-87.6298';
     let url = api + key + '/' + lat + ',' + long + '?exclude=minutely';
+    console.log(url);
     request
         .get(url, function(err, body) {
             res.writeHead(200, {
