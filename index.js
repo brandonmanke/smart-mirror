@@ -12,7 +12,7 @@
 
 const express = require('express');
 const request = require('request');
- const fs = require('fs'); //probably dont even need fs but whatever
+//const fs = require('fs'); //probably dont even need fs but whatever
 
 const app = express();
 
