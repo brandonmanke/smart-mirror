@@ -1,0 +1,34 @@
+/**
+ * @author Brandon Manke
+ * @file style.css
+ * MIT License
+ */
+@font-face {
+    font-family: 'roboto/light';
+    src: url(../fonts/Roboto/Roboto-Light.ttf);
+    font-weight: light;
+}
+
+@font-face {
+    font-family: 'roboto';
+    src: url(../fonts/Roboto/Roboto-Regular.ttf);
+}
+
+body {
+    font-family: 'roboto';
+    color: #ffffff;
+    background-color: #000000;
+}
+
+.main {
+    font-family: 'roboto';
+}
+
+.date {
+    margin-left: 4.5%;
+}
+
+.date span {
+    font-family: 'roboto/light';
+    display: block;
+}
