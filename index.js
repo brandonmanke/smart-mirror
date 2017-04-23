@@ -10,13 +10,25 @@
 
 // ICONS ARE MUST http://darkskyapp.github.io/skycons/
 
+// TODOS: Google News, Google Calendar, & possibly github feed or something
+
 const express = require('express');
 const request = require('request');
+const bodyParser = require('body-parser');
 //const fs = require('fs'); //probably dont even need fs but whatever
 
 const app = express();
 
+let lat = '41.8781';
+let long = '-87.6298';
+
 app.use(express.static(__dirname + '/public'));
+
+// parse application/x-www-form-urlencoded 
+app.use(bodyParser.urlencoded({ extended: false }));
+ 
+// parse application/json 
+app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
 	res.sendFile('index.html');
@@ -25,23 +37,37 @@ app.get('/', function(req, res) {
 app.get('/weather', function(req, res) {
     const api = 'https://api.darksky.net/forecast/';
     const key = '6cbf1a3b7c033fe32b72860130c53bb7';
-    const lat = '41.8781';
-    const long = '-87.6298';
-    let url = api + key + '/' + lat + ',' + long + '?exclude=minutely';
-    console.log(url);
+    console.log('Getting weather');
+    const url = api + key + '/' + lat + ',' + long + '?exclude=minutely';
+    console.log(url,'\n');
     request
         .get(url, function(err, body) {
+            if (err) {
+                return console.log(err);
+            }
+
             res.writeHead(200, {
                 'Content-Type': 'application/json'
             });
-            //let temp = JSON.stringify(body);
+
             //console.log(JSON.parse(temp)); // this constructs a json from response body string
             res.write(JSON.stringify(body)); // must write to response header as string I believe?
             res.end();
-        })
-        .on('error', function(err) {
-            console.log(err);
         });
+});
+
+app.get('/calendar', function(req, res) {
+    //const
+});
+
+app.post('/coord', function(req, res) {
+    //req.body.Geopostion.coords.latitude;
+    if (!req.body) {
+        return res.sendStatus(400);
+    }
+    lat = req.body.lat;
+    long = req.body.long;
+    res.sendStatus(200);
 });
 
 app.listen(3000, function() {

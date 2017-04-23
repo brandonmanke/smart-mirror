@@ -6,7 +6,11 @@
 @font-face {
     font-family: 'roboto/light';
     src: url(../fonts/Roboto/Roboto-Light.ttf);
-    font-weight: light;
+}
+
+@font-face {
+    font-family: 'roboto/bold';
+    src: url(../fonts/Roboto/Roboto-Bold.ttf);
 }
 
 @font-face {
@@ -15,20 +19,46 @@
 }
 
 body {
+    text-align: right;
     font-family: 'roboto';
     color: #ffffff;
     background-color: #000000;
 }
 
 .main {
+    margin-right: 4.5%;
+    margin-left: 4.5%;
     font-family: 'roboto';
 }
 
-.date {
-    margin-left: 4.5%;
+.date {}
+
+.date p {
+    font-family: 'roboto';
+    display: inline-block;
 }
 
 .date span {
-    font-family: 'roboto/light';
+    font-family: 'roboto/bold';
     display: block;
+    font-size: 40px;
+}
+
+.weather {
+    position: relative;
+    /*display: inline-block;*/
+    margin-top: 25px;
+}
+
+.weather span {
+    float: right;
+    display: block;
+    font-family: 'roboto';
+    font-size: 37.5px;
+    margin: 11px 10px 0px 10px;
+}
+
+.forcast {
+    width: 100px;
+    height: 30px;
 }
