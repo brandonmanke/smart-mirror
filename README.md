@@ -1,10 +1,6 @@
 # smart-mirror
 
-A very smart mirror.
-
-This is a node web app for a smart mirror. It includes date and time, as well as google calendar, darksky weather, and github api implementation.
-
-This is an academic project.
+This is a node web app for a smart mirror. It includes date and time, as well as News, Calendar, and Weather info.
 
 ## Licenses
 
