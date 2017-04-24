@@ -8,6 +8,8 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.0",
+    "google-auth-library": "^0.10.0",
+    "googleapis": "^19.0.0",
     "request": "^2.80.0"
   }
 }

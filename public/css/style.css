@@ -59,6 +59,12 @@ body {
 }
 
 .forcast {
-    width: 100px;
-    height: 30px;
+    float: right;
+}
+
+#summary {
+    text-align: left;
+    width: 200px;
+    font-family: 'roboto/light';
+    font-size: 18px;
 }

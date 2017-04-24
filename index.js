@@ -12,6 +12,8 @@
 
 // TODOS: Google News, Google Calendar, & possibly github feed or something
 
+// https://www.googleapis.com/calendar/v3/users/me/calendarList/calendarId
+
 const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
@@ -19,6 +21,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+// coordinates default to Chicago
 let lat = '41.8781';
 let long = '-87.6298';
 
@@ -37,7 +40,7 @@ app.get('/', function(req, res) {
 app.get('/weather', function(req, res) {
     const api = 'https://api.darksky.net/forecast/';
     const key = '6cbf1a3b7c033fe32b72860130c53bb7';
-    console.log('Getting weather');
+    //console.log('Getting weather');
     const url = api + key + '/' + lat + ',' + long + '?exclude=minutely';
     console.log(url,'\n');
     request

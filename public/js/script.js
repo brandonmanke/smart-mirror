@@ -103,7 +103,19 @@ function displayWeather(response) {
     console.log(response);
     var skycons = new Skycons({ 'color': 'white'});
     var temperature = document.getElementById('temp');
+    var summary = document.getElementById('summary');
     temperature.innerHTML = Math.round(response.currently.temperature) + '° F';
     skycons.add('icon1', response.currently.icon);
     skycons.play();
+    summary.innerHTML = response.hourly.summary;
+}
+
+function getNews() {
+    var request = new XMLHttpRequest();
+    request.open('GET', '/news', true);
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            
+        }
+    }
 }
