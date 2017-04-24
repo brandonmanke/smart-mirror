@@ -63,6 +63,24 @@ app.get('/calendar', function(req, res) {
     //const
 });
 
+app.get('/news', function(req, res) {
+    // Associated Press Top Stories RSS Feed
+    const rss = 'http://hosted.ap.org/lineups/TOPHEADS.rss?SITE=AP&SECTION=HOME';
+    request
+        .get(rss, function(err, body) {
+            if (err) {
+                throw console.log(err);
+            }
+
+            res.writeHead(200, {
+                'Content-Type': 'text/xml'
+            });
+
+            res.write(JSON.stringify(body));
+            res.end(); 
+        });
+});
+
 app.post('/coord', function(req, res) {
     //req.body.Geopostion.coords.latitude;
     if (!req.body) {

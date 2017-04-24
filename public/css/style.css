@@ -60,11 +60,36 @@ body {
 
 .forcast {
     float: right;
+    margin-left: 100%;
 }
 
 #summary {
     text-align: left;
     width: 200px;
     font-family: 'roboto/light';
-    font-size: 18px;
+    /*font-size: 18px;*/
+}
+
+#news {
+    margin-top: 20px;
+    float: right;
+}
+
+#news li {
+    font-family: 'roboto/light';
+    list-style-type: none;
+    margin: 10px 0px 10px 0px;
+    text-align: left;
+    font-size: 15px;
+}
+
+#news li:before {
+    display: inline-block;
+    content: ' ';
+    background-image: url('../images/news.svg');
+    background-size: 16px 16px;
+    height: 16px;
+    width: 16px;
+    margin-right: 12px;
+    vertical-align: top;
 }

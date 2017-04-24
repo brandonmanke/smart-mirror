@@ -13,13 +13,11 @@ var months = ['January','February','March','April','May','June','July','August',
     }, 1000);
 
     getLocation(function() {
-        // GET request to darksky api every 5 minutes
-        getWeather();
+        // GET request to darksky api every 10 minutes
+        setInterval(getWeather(), 1000*60*10);
     });
 
-    //setInterval(function() {
-    //}, 1000*60*5);
-
+    setInterval(getNews(), 1000*60*15);
 })(this);
 
 function displayDate() {
@@ -95,7 +93,7 @@ function getWeather() {
 
     request.onerror = function() {
         console.log('error', request.statusText);
-    }
+    };
     request.send();
 }
 
@@ -114,8 +112,28 @@ function getNews() {
     var request = new XMLHttpRequest();
     request.open('GET', '/news', true);
     request.onload = function() {
+        console.log(request.status, ' in onload');
         if (request.status >= 200 && request.status < 400) {
-            
+            var data = request.responseText;
+            var rss = JSON.parse(data).body;
+            displayNews(rss);
+        } else {
+            console.log('something went very wrong :(', request.statusText);
         }
+    };
+
+    request.onerror = function() {
+        console.log('error:', request.statusText);
+    };
+    request.send();
+}
+
+function displayNews(xmlStr) {
+    // formatting string to xml
+    var parser = new DOMParser();
+    var xml = parser.parseFromString(xmlStr, 'text/xml');
+    var news = document.getElementById('news');
+    for (var i = 0; i < news.childNodes.length; i++) {
+        news.childNodes[i].innerHTML = xml.getElementsByTagName('title')[i].childNodes[0].nodeValue;
     }
 }
