@@ -26,6 +26,7 @@ body {
 }
 
 .main {
+    /*height: 90vh;*/
     margin-right: 4.5%;
     margin-left: 4.5%;
     font-family: 'roboto';

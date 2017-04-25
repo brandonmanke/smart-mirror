@@ -23,7 +23,7 @@ var months = ['January','February','March','April','May','June','July','August',
 function displayDate() {
     var date = new Date();
     var time = new Date().toLocaleString([], {   
-        hour12: true, // for now keeping this, but if I want to make am pm smaller have to change
+        hour12: true,
         //weekday: 'long', 
         //year: 'numeric', 
         //month: 'long', 
@@ -112,7 +112,6 @@ function getNews() {
     var request = new XMLHttpRequest();
     request.open('GET', '/news', true);
     request.onload = function() {
-        console.log(request.status, ' in onload');
         if (request.status >= 200 && request.status < 400) {
             var data = request.responseText;
             var rss = JSON.parse(data).body;
