@@ -149,7 +149,7 @@ app.get('/news', function(req, res) {
     request
         .get(rss, function(err, body) {
             if (err) {
-                throw console.log(err);
+                return console.log(err);
             }
 
             res.writeHead(200, {
