@@ -1,9 +1,9 @@
 'use strict';
-// Dark Sky API Key: 6cbf1a3b7c033fe32b72860130c53bb7
-// TODOS: Google Calendar, & possibly github feed or something
-// https://developer.github.com/v3/activity/notifications/
-// https://www.googleapis.com/calendar/v3/users/me/calendarList/calendarId
-
+/**
+ * @author Brandon Manke
+ * @file index.js
+ * @license MIT - unless otherwise specified, by 3rd party library/framework
+ */
 const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
@@ -46,7 +46,6 @@ app.get('/', function(req, res) {
 app.get('/weather', function(req, res) {
     const api = 'https://api.darksky.net/forecast/';
     const key = '6cbf1a3b7c033fe32b72860130c53bb7';
-    //console.log('Getting weather');
     const url = api + key + '/' + lat + ',' + long + '?exclude=minutely';
     console.log(url,'\n');
     request
@@ -86,6 +85,7 @@ app.get('/calendar', function(req, res) {
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
 function listEvents(auth) {
+  // https://www.googleapis.com/calendar/v3/users/me/calendarList/calendarId
   var calendar = google.calendar('v3');
   calendar.events.list({
     auth: auth,

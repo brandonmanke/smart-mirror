@@ -2,7 +2,7 @@
 /**
  * @author Brandon Manke
  * @file script.js
- * MIT License -- unless otherwise specified by framework or library
+ * @license MIT - unless otherwise specified, by 3rd party library/framework
  */
 var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -17,13 +17,14 @@ var months = ['January','February','March','April','May','June','July','August',
         setInterval(getWeather(), 1000*60*10);
     });
 
+    // News every 15 mins
     setInterval(getNews(), 1000*60*15);
 })(this);
 
 function displayDate() {
     var date = new Date();
     var time = new Date().toLocaleString([], {   
-        hour12: true, // for now keeping this, but if I want to make am pm smaller have to change
+        hour12: true,
         //weekday: 'long', 
         //year: 'numeric', 
         //month: 'long', 
