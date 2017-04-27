@@ -17,10 +17,10 @@ const googleAuth = require('google-auth-library');
 
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/calendar-nodejs-quickstart.json
-var SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
-var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
+const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+const TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
-var TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
+const TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
 
 // End Calendar Related
 
@@ -40,6 +40,9 @@ app.get('/', function(req, res) {
 	res.sendFile('index.html');
 });
 
+/**
+ * Gets weather info from Dark Sky API
+ */
 app.get('/weather', function(req, res) {
     const api = 'https://api.darksky.net/forecast/';
     const key = '6cbf1a3b7c033fe32b72860130c53bb7';
@@ -62,6 +65,9 @@ app.get('/weather', function(req, res) {
         });
 });
 
+/**
+ * Pulls upcoming events from google calendar after authorizing
+ */
 app.get('/calendar', function(req, res) {
     fs.readFile('client_secret.json', function processClientSecrets(err, content) {
         if (err) {
@@ -134,6 +140,9 @@ function authorize(credentials, callback) {
   });
 }
 
+/**
+ * Pulls RSS feed from Associated Press
+ */
 app.get('/news', function(req, res) {
     // Associated Press Top Stories RSS Feed
     const rss = 'http://hosted.ap.org/lineups/TOPHEADS.rss?SITE=AP&SECTION=HOME';
@@ -152,6 +161,9 @@ app.get('/news', function(req, res) {
         });
 });
 
+/**
+ * Receives coordinates from html5 geolocation
+ */
 app.post('/coord', function(req, res) {
     //req.body.Geopostion.coords.latitude;
     if (!req.body) {
