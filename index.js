@@ -21,10 +21,9 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
 const TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
 const TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
-
 // End Calendar Related
 
-// coordinates default to Chicago
+// Coordinates default to Chicago
 let lat = '41.8781';
 let long = '-87.6298';
 
@@ -75,7 +74,15 @@ app.get('/calendar', function(req, res) {
         }
         // Authorize a client with the loaded credentials, then call the
         // Google Calendar API.
-        authorize(JSON.parse(content), listEvents);
+        authorize(JSON.parse(content), function(auth) {
+            listEvents(auth, function(events) {
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                });
+                res.write(JSON.stringify(events));
+                res.end();
+            });
+        });
     });
 });
 
@@ -83,15 +90,16 @@ app.get('/calendar', function(req, res) {
  * Lists the next 10 events on the user's primary calendar.
  *
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
+ * @param {function} callback function to send events object as response
  */
-function listEvents(auth) {
+function listEvents(auth, callback) {
   // https://www.googleapis.com/calendar/v3/users/me/calendarList/calendarId
-  var calendar = google.calendar('v3');
+  const calendar = google.calendar('v3');
   calendar.events.list({
     auth: auth,
     calendarId: 'primary',
     timeMin: (new Date()).toISOString(),
-    maxResults: 10,
+    maxResults: 5,
     singleEvents: true,
     orderBy: 'startTime'
   }, function(err, response) {
@@ -99,17 +107,19 @@ function listEvents(auth) {
       console.log('The API returned an error: ' + err);
       return;
     }
-    var events = response.items;
+
+    const events = response.items;
     if (events.length == 0) {
-      console.log('No upcoming events found.');
+        console.log('No upcoming events found.');
     } else {
-      console.log('Upcoming 10 events:');
-      for (var i = 0; i < events.length; i++) {
-        var event = events[i];
-        var start = event.start.dateTime || event.start.date;
-        console.log('%s - %s', start, event.summary);
-      }
+        console.log('Upcoming 5 events:');
+        for (let i = 0; i < events.length; i++) {
+            let event = events[i];
+            let start = event.start.dateTime || event.start.date;
+            console.log('%s - %s', start, event.summary);
+        }
     }
+    callback(events);
   });
 }
 

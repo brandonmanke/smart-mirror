@@ -70,6 +70,10 @@ body {
     /*font-size: 18px;*/
 }
 
+.container {
+    float: right;
+}
+
 #news {
     margin-top: 20px;
     float: right;
@@ -87,6 +91,36 @@ body {
     display: inline-block;
     content: ' ';
     background-image: url('../images/news.svg');
+    background-size: 16px 16px;
+    height: 16px;
+    width: 16px;
+    margin-right: 12px;
+    vertical-align: top;
+}
+
+#calendar {
+    margin-top: 40%;
+}
+
+#calendar li {
+    font-family: 'roboto/light';
+    list-style-type: none;
+    margin: 10px 0px 10px 0px;
+    text-align: left;
+    font-size: 15px;
+}
+
+#calendar p {
+    font-family: 'roboto/light';
+    margin: 10px 0px 10px 0px;
+    text-align: left;
+    font-size: 15px;
+}
+
+#calendar li:before {
+    display: inline-block;
+    content: ' ';
+    background-image: url('../images/event.svg');
     background-size: 16px 16px;
     height: 16px;
     width: 16px;
