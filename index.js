@@ -44,7 +44,7 @@ app.get('/', function(req, res) {
  */
 app.get('/weather', function(req, res) {
     const api = 'https://api.darksky.net/forecast/';
-    const key = '6cbf1a3b7c033fe32b72860130c53bb7';
+    const key = '6cbf1a3b7c033fe32b72860130c53bb7'; // This was my old api key, I reset this so people don't abuse it.
     const url = api + key + '/' + lat + ',' + long + '?exclude=minutely';
     console.log(url,'\n');
     request
