@@ -2,7 +2,7 @@
 /**
  * @author Brandon Manke
  * @file script.js
- * MIT License -- unless otherwise specified by framework or library
+ * @license MIT - unless otherwise specified, by 3rd party library/framework
  */
 var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -17,13 +17,17 @@ var months = ['January','February','March','April','May','June','July','August',
         setInterval(getWeather(), 1000*60*10);
     });
 
+    // News every 15 mins
     setInterval(getNews(), 1000*60*15);
+
+    // Calendar Events every 15 mins
+    setInterval(getCalendar(), 1000*60*15);
 })(this);
 
 function displayDate() {
     var date = new Date();
     var time = new Date().toLocaleString([], {   
-        hour12: true, // for now keeping this, but if I want to make am pm smaller have to change
+        hour12: true,
         //weekday: 'long', 
         //year: 'numeric', 
         //month: 'long', 
@@ -56,7 +60,7 @@ function getLocation(callback) {
         });
     } else {
         // if location is not supported
-        console.log("Geolocation is not supported by this browser.");
+        console.log('Geolocation is not supported by this browser.');
         callback();
     }
 }
@@ -98,7 +102,6 @@ function getWeather() {
 }
 
 function displayWeather(response) {
-    console.log(response);
     var skycons = new Skycons({ 'color': 'white'});
     var temperature = document.getElementById('temp');
     var summary = document.getElementById('summary');
@@ -112,7 +115,6 @@ function getNews() {
     var request = new XMLHttpRequest();
     request.open('GET', '/news', true);
     request.onload = function() {
-        console.log(request.status, ' in onload');
         if (request.status >= 200 && request.status < 400) {
             var data = request.responseText;
             var rss = JSON.parse(data).body;
@@ -123,11 +125,15 @@ function getNews() {
     };
 
     request.onerror = function() {
-        console.log('error:', request.statusText);
+        console.log('request error:', request.statusText);
     };
     request.send();
 }
 
+/**
+ * Formats the news from xml string to text
+ * @param {string} Associated Press rss feed in xml format
+ */
 function displayNews(xmlStr) {
     // formatting string to xml
     var parser = new DOMParser();
@@ -137,3 +143,49 @@ function displayNews(xmlStr) {
         news.childNodes[i].innerHTML = xml.getElementsByTagName('title')[i].childNodes[0].nodeValue;
     }
 }
+
+/**
+ * Gets 5 recent upcoming events from Google Calendar API
+ */
+function getCalendar() {
+    var request = new XMLHttpRequest();
+    request.open('GET', '/calendar', true);
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            var data = request.responseText;
+            var events = JSON.parse(data);
+            displayCalendar(events);
+        } else {
+            console.log('error:', request.status);
+        }
+    };
+
+    request.onerror = function() {
+        console.log('request error:', request.statusText);
+    };
+    request.send();
+}
+
+function displayCalendar(events) {
+    console.log(events);
+    if (events && events.length > 0) {
+        for (var i = 0; i < events.length; i++) {
+            var event = events[i];
+            var eventElement = document.createElement('li');
+            var start = event.start.dateTime || event.start.date;
+            var date = new Date(start);
+            var eventText = document.createTextNode(months[date.getMonth()] + ' ' + 
+                                                    date.getDate() + ' @ ' + 
+                                                    date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ' - ' + 
+                                                    event.summary); // formates to [ date @ time - summary ]
+            eventElement.appendChild(eventText);
+            document.getElementById('calendar').appendChild(eventElement);
+        }
+    } else {
+        var message = document.createElement('p');
+        var text = document.createTextNode('No upcoming events found.');
+        message.appendChild(text);
+        document.getElementById('calendar').appendChild(message);
+    }
+}
+
