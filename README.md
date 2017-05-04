@@ -3,7 +3,9 @@
 This is a node web app for a smart mirror on a device like a Rasberry Pi. It can keep track of things like: date, time, calendar events, news, weather, and more!
 
 Here's a sample of the current UI:
+
 ![ui](assets/ui.png)
+
 ## Summary
 The current application gets your location via the HTML5 Geolocation API. Below that it displays the weather, via the Dark Sky API, followed by a 24-hour forcast summary. Followed by the top 4 stories off of the associated press RSS feed. Below that is your 5 most recent google calendar events displayed with their time and date.
 
