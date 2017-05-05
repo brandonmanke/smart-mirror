@@ -27,7 +27,7 @@ const TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
 let lat = '41.8781';
 let long = '-87.6298';
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/src/public'));
 
 // parse application/x-www-form-urlencoded 
 app.use(bodyParser.urlencoded({ extended: false }));
