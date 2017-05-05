@@ -27,7 +27,7 @@ const TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
 let lat = '41.8781';
 let long = '-87.6298';
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/src/public'));
 
 // parse application/x-www-form-urlencoded 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -93,34 +93,33 @@ app.get('/calendar', function(req, res) {
  * @param {function} callback function to send events object as response
  */
 function listEvents(auth, callback) {
-  // https://www.googleapis.com/calendar/v3/users/me/calendarList/calendarId
-  const calendar = google.calendar('v3');
-  calendar.events.list({
-    auth: auth,
-    calendarId: 'primary',
-    timeMin: (new Date()).toISOString(),
-    maxResults: 5,
-    singleEvents: true,
-    orderBy: 'startTime'
-  }, function(err, response) {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-
-    const events = response.items;
-    if (events.length == 0) {
-        console.log('No upcoming events found.');
-    } else {
-        console.log('Upcoming 5 events:');
-        for (let i = 0; i < events.length; i++) {
-            let event = events[i];
-            let start = event.start.dateTime || event.start.date;
-            console.log('%s - %s', start, event.summary);
+    // https://www.googleapis.com/calendar/v3/users/me/calendarList/calendarId
+    const calendar = google.calendar('v3');
+    calendar.events.list({
+        auth: auth,
+        calendarId: 'primary',
+        timeMin: (new Date()).toISOString(),
+        maxResults: 5,
+        singleEvents: true,
+        orderBy: 'startTime'
+    }, function(err, response) {
+        if (err) {
+            console.log('The API returned an error: ' + err);
+            return;
         }
-    }
-    callback(events);
-  });
+        const events = response.items;
+        if (events.length == 0) {
+            console.log('No upcoming events found.');
+        } else {
+            console.log('Upcoming 5 events:');
+            for (let i = 0; i < events.length; i++) {
+                let event = events[i];
+                let start = event.start.dateTime || event.start.date;
+                console.log('%s - %s', start, event.summary);
+            }
+        }
+        callback(events);
+    });
 }
 
 /**
@@ -131,23 +130,23 @@ function listEvents(auth, callback) {
  * @param {function} callback The callback to call with the authorized client.
  */
 function authorize(credentials, callback) {
-  var clientSecret = credentials.installed.client_secret;
-  var clientId = credentials.installed.client_id;
-  var redirectUrl = credentials.installed.redirect_uris[0];
-  var auth = new googleAuth();
-  var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+    const clientSecret = credentials.installed.client_secret;
+    const clientId = credentials.installed.client_id;
+    const redirectUrl = credentials.installed.redirect_uris[0];
+    const auth = new googleAuth();
+    const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
-  // Check if we have previously stored a token.
-  fs.readFile(TOKEN_PATH, function(err, token) {
-    if (err) {
-      //getNewToken(oauth2Client, callback);
-      console.log('Error (probably need to generate new OAuth token)', err);
-      return;
-    } else {
-      oauth2Client.credentials = JSON.parse(token);
-      callback(oauth2Client);
-    }
-  });
+    // Check if we have previously stored a token.
+    fs.readFile(TOKEN_PATH, function(err, token) {
+        if (err) {
+            //getNewToken(oauth2Client, callback);
+            console.log('Error (probably need to generate new OAuth token)', err);
+            return;
+        } else {
+            oauth2Client.credentials = JSON.parse(token);
+            callback(oauth2Client);
+        }
+    });
 }
 
 /**
@@ -185,5 +184,5 @@ app.post('/coord', function(req, res) {
 });
 
 app.listen(3000, function() {
-	console.log('Express server started on localhost:3000');
+    console.log('Express server started on localhost:3000');
 });

@@ -1,8 +1,8 @@
 {
   "name": "smart-mirror",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Smart Mirror Web Application",
-  "main": "index.js",
+  "main": "server.js",
   "author": "Brandon Manke",
   "license": "MIT",
   "dependencies": {
