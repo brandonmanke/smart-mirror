@@ -1,7 +1,7 @@
 'use strict';
 /**
  * @author Brandon Manke
- * @file index.js
+ * @file server.js
  * @license MIT - unless otherwise specified, by 3rd party library/framework
  */
 const express = require('express');
@@ -35,20 +35,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json 
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
     res.sendFile('index.html');
 });
 
 /**
  * Gets weather info from Dark Sky API
  */
-app.get('/weather', function(req, res) {
+app.get('/weather', (req, res) => {
     const api = 'https://api.darksky.net/forecast/';
     const key = '6cbf1a3b7c033fe32b72860130c53bb7'; // This was my old api key, I reset this so people don't abuse it.
     const url = api + key + '/' + lat + ',' + long + '?exclude=minutely';
     console.log(url,'\n');
     request
-        .get(url, function(err, body) {
+        .get(url, (err, body) => {
             if (err) {
                 return console.log(err);
             }
@@ -66,7 +66,7 @@ app.get('/weather', function(req, res) {
 /**
  * Pulls upcoming events from google calendar after authorizing
  */
-app.get('/calendar', function(req, res) {
+app.get('/calendar', (req, res) => {
     fs.readFile('client_secret.json', function processClientSecrets(err, content) {
         if (err) {
             console.log('Error loading client secret file: ' + err);
@@ -74,8 +74,8 @@ app.get('/calendar', function(req, res) {
         }
         // Authorize a client with the loaded credentials, then call the
         // Google Calendar API.
-        authorize(JSON.parse(content), function(auth) {
-            listEvents(auth, function(events) {
+        authorize(JSON.parse(content), (auth) => {
+            listEvents(auth, (events) => {
                 res.writeHead(200, {
                     'Content-Type': 'application/json'
                 });
@@ -92,7 +92,7 @@ app.get('/calendar', function(req, res) {
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  * @param {function} callback function to send events object as response
  */
-function listEvents(auth, callback) {
+ function listEvents(auth, callback) {
     // https://www.googleapis.com/calendar/v3/users/me/calendarList/calendarId
     const calendar = google.calendar('v3');
     calendar.events.list({
@@ -102,7 +102,7 @@ function listEvents(auth, callback) {
         maxResults: 5,
         singleEvents: true,
         orderBy: 'startTime'
-    }, function(err, response) {
+    }, (err, response) => {
         if (err) {
             console.log('The API returned an error: ' + err);
             return;
@@ -137,7 +137,7 @@ function authorize(credentials, callback) {
     const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
     // Check if we have previously stored a token.
-    fs.readFile(TOKEN_PATH, function(err, token) {
+    fs.readFile(TOKEN_PATH, (err, token) => {
         if (err) {
             //getNewToken(oauth2Client, callback);
             console.log('Error (probably need to generate new OAuth token)', err);
@@ -152,11 +152,11 @@ function authorize(credentials, callback) {
 /**
  * Pulls RSS feed from Associated Press
  */
-app.get('/news', function(req, res) {
+app.get('/news', (req, res) => {
     // Associated Press Top Stories RSS Feed
     const rss = 'http://hosted.ap.org/lineups/TOPHEADS.rss?SITE=AP&SECTION=HOME';
     request
-        .get(rss, function(err, body) {
+        .get(rss, (err, body) => {
             if (err) {
                 return console.log(err);
             }
@@ -173,7 +173,7 @@ app.get('/news', function(req, res) {
 /**
  * Receives coordinates from html5 geolocation
  */
-app.post('/coord', function(req, res) {
+app.post('/coord', (req, res) => {
     //req.body.Geopostion.coords.latitude;
     if (!req.body) {
         return res.sendStatus(400);
@@ -183,6 +183,6 @@ app.post('/coord', function(req, res) {
     res.sendStatus(200);
 });
 
-app.listen(3000, function() {
+app.listen(3000, () => {
     console.log('Express server started on localhost:3000');
 });
