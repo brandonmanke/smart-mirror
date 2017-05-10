@@ -67,7 +67,8 @@ app.get('/weather', (req, res) => {
  * Pulls upcoming events from google calendar after authorizing
  */
 app.get('/calendar', (req, res) => {
-    fs.readFile('client_secret.json', function processClientSecrets(err, content) {
+    // callback authorizes with key from json
+    fs.readFile('client_secret.json', (err, content) => {
         if (err) {
             console.log('Error loading client secret file: ' + err);
             return;
